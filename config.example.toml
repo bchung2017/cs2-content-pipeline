@@ -1,0 +1,66 @@
+# Copy to config.toml. Every number here is a proposed value (docs/decisions.md).
+
+[paths]
+data_dir = "data"            # ledger, timelines, drafts
+intake_dir = "data/intake"   # drop <match>.dem + <match>.json here
+maps_dir = "maps"            # optional <map>.png + <map>.txt (Valve overview file)
+
+[rank]
+posting_budget = 3           # N: plays per day that go on to narration
+min_score = 0.0
+position_stride_ticks = 16   # position sample spacing in the timeline
+
+[rank.rarity]
+"5k" = 1.0
+"4k" = 0.7
+"3k" = 0.35
+"clutch_1v2" = 0.4
+"clutch_1v3" = 0.7
+"clutch_1v4" = 0.9
+"clutch_1v5" = 1.0
+noscope = 0.25
+thrusmoke = 0.15
+attackerblind = 0.2
+penetrated = 0.1
+attackerinair = 0.2
+
+[rank.tier]                  # match tier from the intake sidecar
+S = 1.0
+A = 0.8
+B = 0.6
+C = 0.4
+
+[rank.player]                # optional per-player multiplier, keyed by in-game name
+# "s1mple" = 1.2
+
+[narrate]
+model = "claude-opus-5-5"
+effort = "high"
+min_words = 80
+max_words = 100
+max_reject_ratio = 0.30      # above this share of a day's scripts failing, narration stops
+
+[render]
+width = 1080
+height = 1920
+fps = 30
+hook_seconds = 3.0
+max_total_seconds = 60.0
+
+[tts]
+provider = "silent"          # "silent" or "command"
+# For "command": {text_file} and {out_wav} are substituted, e.g. a local piper install:
+# command = "piper --model en_US-lessac-medium.onnx --input_file {text_file} --output_file {out_wav}"
+command = ""
+words_per_second = 2.6       # silent provider: duration estimate
+
+[post]
+delay_hours = 24
+platforms = ["dryrun"]       # "dryrun", "youtube" (tiktok not implemented)
+
+[post.youtube]
+token_file = "secrets/youtube_token.json"
+privacy = "private"
+
+[intake]
+alert_after_days_without_demos = 3

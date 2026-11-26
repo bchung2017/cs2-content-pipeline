@@ -6,7 +6,19 @@ Seed context for sessions in this repo. Read `docs/` before proposing design cha
 
 Batch pipeline: pro CS2 match demo → ranked plays → grounded script → 2D radar
 breakdown + 3 s POV hook → vertical MP4 → operator review → post at T+24h to
-YouTube Shorts and TikTok. Single operator/builder. Stage: planning, no code.
+YouTube Shorts and TikTok. Single operator/builder. Stage: code end to end in
+`cs2pipe/`, tested only on synthetic timelines (`tests/conftest.py`); never run on a real
+demo. README "Not done" lists the gaps.
+
+## Code conventions
+
+- Python 3.11+, package `cs2pipe`, one module per pipeline stage, SQLite ledger as the only state.
+- Run tests with `.venv/bin/python -m pytest -q`; CI runs the same on push.
+- Each stage enforces its own entry gate (README layout table). Keep gates at the point of
+  action, e.g. `post.py` re-checks approval and the 24 h delay itself.
+- demoparser2 column names live only in `parse.py`. If a real demo disagrees, fix them there.
+- Narration uses the Anthropic SDK (`claude-opus-5-5`, structured JSON output, server-side
+  refusal fallback). Tests use `tests.conftest.FakeClient`; never call the API in tests.
 
 ## Hard constraints (decided by the operator)
 
@@ -24,15 +36,18 @@ See `docs/decisions.md`. Flag when work depends on one of these.
 ## Unresolved — don't assume an answer
 
 - Demo source and latency (HLTV / organizer / FACEIT unverified).
-- Parser library: awpy vs demoparser2, chosen by matching kills per round to the scoreboard.
+- Parser library: demoparser2 is used provisionally; the scoreboard check (kills per round
+  match) on a real demo is still the deciding test.
 - Whether CS2 demo playback can be scripted for hands-free POV capture.
 - LLM/TTS spend cap.
 
 ## Build order
 
 Follow `docs/roadmap.md` section 3. Each step has a pass check; a step counts as
-done only when its check passes. Intake automation (`poll.py`, `fetch.py`) is
-last; until then, demos are downloaded by hand into an intake folder.
+done only when its check passes. Code existing for a step is not the same as its
+check passing: as of the first code commit, no roadmap check has passed. Intake
+automation (Liquipedia poll) is last; until then, demos and sidecars go into the
+intake folder by hand.
 
 ## Narration rule
 

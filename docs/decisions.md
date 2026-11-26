@@ -24,6 +24,16 @@ As of 2026-11-25.
   verifier stop, 3-day no-demo stop, ~300-post refit).
 - The operator as owner of every next step.
 
+## Implementation choices in the first code (2026-11-26, proposed)
+
+- demoparser2 as the parser, pending the scoreboard check.
+- Hook = zoomed radar clip until CS2 POV capture is proven.
+- TTS behind a provider switch (`silent` placeholder or any local CLI); no voice chosen.
+- Review queue = local Flask page.
+- Intake = sidecar JSON per match in a folder; Liquipedia poll not built.
+- Stakes formula: base 1.0, +0.5 match point, +0.3 overtime, +0.2 pistol,
+  +0.3 × closeness, +0.5 deciding round.
+
 ## Open unknowns
 
 - Where pro demos can be fetched reliably, and how soon after a match.
