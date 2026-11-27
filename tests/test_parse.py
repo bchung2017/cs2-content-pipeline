@@ -21,6 +21,7 @@ def frames():
             {"tick": 1500, "attacker_steamid": CT[0], "attacker_name": "ct0", "user_steamid": T[0], "user_name": "t0",
              "weapon": "awp", "headshot": True, "noscope": True, "thrusmoke": False, "penetrated": 0,
              "attacker_last_place_name": "Connector", "user_last_place_name": "Mid", "user_X": 1.0, "user_Y": 2.0},
+            {"tick": 600, "attacker_steamid": CT[2], "user_steamid": CT[2], "weapon": "world"},  # restart self-kill
             {"tick": 3600, "attacker_steamid": T[1], "attacker_name": "t1", "user_steamid": CT[1], "user_name": "ct1",
              "weapon": "m4a1", "headshot": False},
         ]),

@@ -31,6 +31,12 @@ def font(size: int):
     return ImageFont.load_default(size=size)
 
 
+def fitted(d: ImageDraw.ImageDraw, text: str, size: int, max_w: float):
+    while size > 10 and d.textlength(text, font=font(size)) > max_w:
+        size -= 2
+    return font(size)
+
+
 def load_overview(maps_dir: Path, map_name: str) -> tuple[Image.Image, dict] | None:
     png, txt = maps_dir / f"{map_name}.png", maps_dir / f"{map_name}.txt"
     if not (png.exists() and txt.exists()):
@@ -113,7 +119,7 @@ def _draw_frame(canvas: Image.Image, view: View, bg: Image.Image, tl: Timeline, 
     canvas.paste(bg, (0, top))
     d = ImageDraw.Draw(canvas)
     s = w / 1080
-    d.text((w / 2, top / 2), title, fill=COLORS["ink"], font=font(int(54 * s)), anchor="mm")
+    d.text((w / 2, top / 2), title, fill=COLORS["ink"], font=fitted(d, title, int(54 * s), w * 0.92), anchor="mm")
 
     kills = [e for e in tl.events_in_round(rnd.number) if e.type == "kill" and e.tick <= tick]
     for k in kills:
@@ -143,8 +149,8 @@ def _draw_frame(canvas: Image.Image, view: View, bg: Image.Image, tl: Timeline, 
             alive[rnd.sides[sid]] += 1
     y = top + view.size + 40 * s
     sb = rnd.score_before
-    d.text((w / 2, y), f"Round {rnd.number}   {tl.teams['A']} {sb['A']} - {sb['B']} {tl.teams['B']}",
-           fill=COLORS["ink"], font=font(int(40 * s)), anchor="mt")
+    score = f"Round {rnd.number}   {tl.teams['A']} {sb['A']} - {sb['B']} {tl.teams['B']}"
+    d.text((w / 2, y), score, fill=COLORS["ink"], font=fitted(d, score, int(40 * s), w * 0.92), anchor="mt")
     d.text((w / 2, y + 60 * s), f"CT {alive['CT']}  v  {alive['T']} T", fill=COLORS["dim"], font=font(int(40 * s)), anchor="mt")
     fy = y + 140 * s
     for k in kills[-6:]:
@@ -152,7 +158,7 @@ def _draw_frame(canvas: Image.Image, view: View, bg: Image.Image, tl: Timeline, 
         line = f"{tl.player_name(k.actor)}  [{k.weapon}]  {tl.player_name(k.target)}"
         if k.flags:
             line += "  " + " ".join(k.flags)
-        d.text((60 * s, fy), line, fill=colour, font=font(int(34 * s)))
+        d.text((60 * s, fy), line, fill=colour, font=fitted(d, line, int(34 * s), w - 120 * s))
         fy += 48 * s
 
 

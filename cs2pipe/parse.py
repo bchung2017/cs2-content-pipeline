@@ -135,7 +135,9 @@ def build_timeline(frames: dict, match_id: str, meta: dict, stride: int,
     for _, k in frames["player_death"].iterrows():
         tick = int(k["tick"])
         rn = round_at(tick)
-        if rn is None:
+        # Kills before freeze end are not play: admin round restarts (backup restores) log a
+        # self-kill for every player at the restart tick.
+        if rn is None or tick < rounds[rn - 1].freeze_end_tick:
             continue
         flags = [f for f in KILL_FLAGS if f in k and bool(k[f]) and not pd.isna(k[f])]
         raw.append((tick, Event(

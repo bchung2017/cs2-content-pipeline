@@ -7,8 +7,9 @@ Seed context for sessions in this repo. Read `docs/` before proposing design cha
 Batch pipeline: pro CS2 match demo → ranked plays → grounded script → 2D radar
 breakdown + 3 s POV hook → vertical MP4 → operator review → post at T+24h to
 YouTube Shorts and TikTok. Single operator/builder. Stage: code end to end in
-`cs2pipe/`, tested only on synthetic timelines (`tests/conftest.py`); never run on a real
-demo. README "Not done" lists the gaps.
+`cs2pipe/`, tested on synthetic timelines (`tests/conftest.py`) and parsed/rendered on one
+real demo (branch `demo-fixture`, LFS: Imperial vs Liquid, Cache, 13-16). README "Not done"
+lists the gaps.
 
 ## Code conventions
 
@@ -16,7 +17,11 @@ demo. README "Not done" lists the gaps.
 - Run tests with `.venv/bin/python -m pytest -q`; CI runs the same on push.
 - Each stage enforces its own entry gate (README layout table). Keep gates at the point of
   action, e.g. `post.py` re-checks approval and the 24 h delay itself.
-- demoparser2 column names live only in `parse.py`. If a real demo disagrees, fix them there.
+- demoparser2 column names live only in `parse.py`. They matched the first real demo
+  (patch 14200). Admin round restarts log a self-kill per player at the restart tick;
+  `parse.py` drops kills before freeze end for that reason.
+- Demo fixtures live only on the `demo-fixture` branch (Git LFS, ~0.5 GB each). Never merge
+  it into main; GitHub Free has 10 GiB LFS storage and 10 GiB/month bandwidth.
 - Narration uses the Anthropic SDK (`claude-opus-5-5`, structured JSON output, server-side
   refusal fallback). Tests use `tests.conftest.FakeClient`; never call the API in tests.
 
