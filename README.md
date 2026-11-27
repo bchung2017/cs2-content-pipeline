@@ -4,8 +4,8 @@ Automated pipeline that turns finished pro CS2 matches into vertical breakdown
 shorts: 3 s of the play, ~40 s on how it happened, posted 24 h after the match.
 Built from match demos, never broadcast footage. Human review gate before posting.
 
-Status: pipeline code end to end. Parsed and rendered on one real pro demo; the
-per-player scoreboard comparison for that demo is pending (see "Not done" below).
+Status: pipeline code end to end. On one real pro demo the parse matches HLTV's
+scoreboard for all 10 players; narration, TTS and posting have not run for real yet.
 
 ## Run
 
@@ -46,8 +46,8 @@ cs2pipe status
 
 ## Not done
 
-- **Parser checked on one demo only.** Column names matched; score gate passes (16-13 over
-  29 rounds). Per-player K-D still to be compared against HLTV's scoreboard.
+- **Parser checked on one demo only.** K-D for all 10 players matches HLTV; more demos
+  (other maps, patches, organizers) still to come.
 - **POV hook.** The hook is a zoomed radar clip. `render.CS2ClientHook` is the slot for
   CS2 demo-playback capture (roadmap next step 5).
 - **TTS.** `silent` (placeholder track) or `command` (any local TTS CLI). No voice chosen.

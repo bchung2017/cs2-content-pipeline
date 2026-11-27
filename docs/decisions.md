@@ -26,7 +26,8 @@ As of 2026-11-25.
 
 ## Implementation choices in the first code (2026-11-26, proposed)
 
-- demoparser2 as the parser, pending the scoreboard check.
+- demoparser2 as the parser. **Confirmed 2026-11-27:** per-player K-D on PGL Major Singapore
+  2026, Imperial vs Liquid, Cache (13-16) matched HLTV for all 10 players.
 - Hook = zoomed radar clip until CS2 POV capture is proven.
 - TTS behind a provider switch (`silent` placeholder or any local CLI); no voice chosen.
 - Review queue = local Flask page.

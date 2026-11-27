@@ -41,8 +41,6 @@ See `docs/decisions.md`. Flag when work depends on one of these.
 ## Unresolved — don't assume an answer
 
 - Demo source and latency (HLTV / organizer / FACEIT unverified).
-- Parser library: demoparser2 is used provisionally; the scoreboard check (kills per round
-  match) on a real demo is still the deciding test.
 - Whether CS2 demo playback can be scripted for hands-free POV capture.
 - LLM/TTS spend cap.
 
@@ -50,7 +48,8 @@ See `docs/decisions.md`. Flag when work depends on one of these.
 
 Follow `docs/roadmap.md` section 3. Each step has a pass check; a step counts as
 done only when its check passes. Code existing for a step is not the same as its
-check passing: as of the first code commit, no roadmap check has passed. Intake
+check passing: the only roadmap check passed so far is step 3 (`parse.py`: all 10 players' K-D matched
+HLTV for Imperial vs Liquid, Cache, 2026-11-27), which confirms demoparser2 as the parser. Intake
 automation (Liquipedia poll) is last; until then, demos and sidecars go into the
 intake folder by hand.
 
