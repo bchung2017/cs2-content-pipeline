@@ -14,7 +14,7 @@ Requires Python 3.11+ and ffmpeg.
 ```
 python -m venv .venv && .venv/bin/pip install -e '.[dev]'
 cp config.example.toml config.toml
-export ANTHROPIC_API_KEY=...            # narration
+export CS2PIPE_ANTHROPIC_KEY=...        # narration (ANTHROPIC_API_KEY is ignored)
 .venv/bin/cs2pipe inspect-demo some.dem # check parser column names on a real demo first
 ```
 

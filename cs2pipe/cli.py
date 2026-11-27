@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -12,7 +13,7 @@ from .ledger import Ledger
 def _client(cfg: dict):
     import anthropic
 
-    return anthropic.Anthropic(base_url=cfg["narrate"]["base_url"])
+    return anthropic.Anthropic(api_key=os.environ["CS2PIPE_ANTHROPIC_KEY"], base_url=cfg["narrate"]["base_url"])
 
 
 def main(argv: list[str] | None = None) -> None:
