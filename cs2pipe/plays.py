@@ -91,8 +91,12 @@ def detect(tl: Timeline, cfg: dict) -> list[dict]:
     for rnd in tl.rounds:
         st, st_features = stakes(rnd, tl)
         for actor, c in _round_plays(tl, rnd, rarity_w).items():
+            # Kill flags (noscope, thrusmoke, ...) only add to a multi-kill or clutch; a lone
+            # flagged kill is not a play.
+            if not any(k.endswith("k") or k.startswith("clutch") for k in c["components"]):
+                continue
             values = sorted(c["components"].values(), reverse=True)
-            if not values or values[0] <= 0:
+            if values[0] <= 0:
                 continue
             rarity = values[0] + 0.5 * sum(values[1:])
             name = tl.player_name(actor)

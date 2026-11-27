@@ -35,3 +35,9 @@ def test_stakes_match_point_and_overtime(timeline):
     r.score_before = {"A": 15, "B": 14}
     _, f = plays.stakes(r, timeline)
     assert f["overtime"] and f["match_point"]
+
+
+def test_lone_flagged_kill_is_not_a_play(timeline, cfg):
+    first_kill = next(e for e in timeline.events if e.type == "kill" and e.round == 1)
+    first_kill.flags = ["noscope", "thrusmoke", "attackerblind"]
+    assert not [p for p in plays.detect(timeline, cfg) if p["round"] == 1]

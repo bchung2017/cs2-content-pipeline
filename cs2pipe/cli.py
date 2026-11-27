@@ -9,10 +9,10 @@ from . import config, parse, pipeline, post
 from .ledger import Ledger
 
 
-def _client():
+def _client(cfg: dict):
     import anthropic
 
-    return anthropic.Anthropic()
+    return anthropic.Anthropic(base_url=cfg["narrate"]["base_url"])
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -48,7 +48,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.cmd in ("rank", "run"):
         print("selected:", [p["id"] for p in pipeline.stage_rank(cfg, lg, args.day)])
     if args.cmd in ("narrate", "run"):
-        print("narrate:", pipeline.stage_narrate(cfg, lg, args.day, _client()))
+        print("narrate:", pipeline.stage_narrate(cfg, lg, args.day, _client(cfg)))
     if args.cmd in ("render", "run"):
         print("rendered:", pipeline.stage_render(cfg, lg, args.day))
     if args.cmd == "review":
